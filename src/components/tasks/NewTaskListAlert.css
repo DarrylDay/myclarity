@@ -1,0 +1,12 @@
+.alert-message.sc-ion-alert-ios:empty {
+    padding-bottom: 0px;
+}
+
+.alert-head.sc-ion-alert-md {
+    padding-bottom: 8px;
+}
+
+.alert-input-group.sc-ion-alert-md {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}

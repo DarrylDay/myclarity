@@ -1,0 +1,7 @@
+{
+  "name": "myClarity",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

@@ -1,0 +1,7 @@
+[
+    {
+      "origin": ["app.myclarity.io"],
+      "method": ["GET"],
+      "maxAgeSeconds": 3600
+    }
+  ]

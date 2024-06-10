@@ -1,0 +1,9 @@
+ion-backdrop.loading-overlay {
+    opacity: 0.5;
+}
+
+ion-spinner.loading-overlay {
+    display: block;
+    margin: auto;
+    height: 100%;
+}

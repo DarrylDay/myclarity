@@ -1,0 +1,42 @@
+.holder {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.holder.mobile {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+}
+
+.task-item-mobile {
+    --min-height: 50px;
+    border-radius: 8px;
+    --background: var(--ion-color-light);
+}
+
+.task-item-mobile.ios {
+    --inner-padding-end: 0px;
+}
+
+.task-item-desktop {
+    /* --background: var(--ion-color-light); */
+}
+
+.task-item-desktop.selected {
+    --background: var(--ion-color-light-tint);
+}
+
+.task-sliding {
+    --min-height: 50px;
+    border-radius: 8px;
+}
+
+.task-checkbox {
+    --background: var(--ion-color-light);
+}
+
+.task-slide-icon {
+    min-width: 50px;
+    font-size: 24px;
+}

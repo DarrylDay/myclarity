@@ -1,0 +1,7 @@
+.details-task-item-text {
+    font-size: 20px !important;
+}
+
+.details-task-item-text.desktop {
+    font-size: 16px !important;
+}

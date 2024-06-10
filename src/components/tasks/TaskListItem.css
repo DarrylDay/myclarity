@@ -1,0 +1,7 @@
+.task-list-item {
+    --background: var(--ion-color-light);
+}
+
+.task-list-item.selected {
+    --background: var(--ion-color-light-shade);
+}

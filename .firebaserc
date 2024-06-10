@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "development": "clarity-dev-1c905",
+    "staging": "clarity-staging-dd864"
+  }
+}

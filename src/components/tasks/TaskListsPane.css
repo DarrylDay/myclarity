@@ -1,0 +1,9 @@
+ion-item-divider{
+    min-height: 0px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.task-lists-list-desktop {
+    padding: 0px;
+}

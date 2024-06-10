@@ -1,0 +1,155 @@
+variables:
+  MYCLARITY_ENV: "local"
+  MYCLARITY_LAYOUT: "both"
+  MYCLARITY_TEST_WEBSERVER: "local"
+  MYCLARITY_TEST_URL: "http://localhost:3000"
+  MYCLARITY_TEST_REUSE_SERVER: "true"
+
+cache:
+  paths:
+    - node_modules/
+    - build/
+    - electron/node_modules/
+    - electron/build/
+    - functions/
+
+stages:
+  - compile
+  - test
+  - build
+  - deploy
+
+web-compile:
+  stage: compile
+  tags:
+    - myclarity
+  script:
+    - npm install
+    - cd functions
+    - npm install
+    - npm run build
+    - cd ..
+    - npm run ionic:build
+
+e2e-test:
+  stage: test
+  needs:
+    - web-compile
+  tags:
+    - myclarity
+  script:
+    - echo "test"
+  artifacts:
+    paths:
+      - playwright-report/
+    expire_in: 14 days
+    when: always
+
+include:
+- template: Security/Secret-Detection.gitlab-ci.yml
+#- template: Security/SAST.gitlab-ci.yml
+
+.base-build:
+  stage: build
+  needs:
+    - e2e-test
+    - secret_detection
+  tags:
+    - myclarity
+  script:
+    - echo "Build"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "staging"
+      when: on_success
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: always
+    - when: manual
+
+.base-electron:
+  extends:
+    - .base-build
+  before_script:
+    - cd electron
+    - npm install
+    - node ../version.js
+  artifacts:
+    paths:
+      - electron/dist/
+    expire_in: 14 days
+    when: on_success
+
+.base-macos:
+  extends: .base-electron
+  tags:
+    - myclarity
+    - macos
+
+.base-windows:
+  extends: .base-electron
+  tags:
+    - myclarity
+    - windows
+
+windows-exe-build:
+  extends: .base-windows
+
+windows-msi-build:
+  extends: .base-windows
+
+macos-arm64-dmg-build:
+  extends: .base-macos
+  script:
+    - npm run mac:arm64:dmg
+
+macos-arm64-app-build:
+  extends: .base-macos
+  script:
+    - npm run mac:arm64:app
+
+macos-x64-dmg-build:
+  extends: .base-macos
+  script:
+    - npm run mac:x64:app
+
+macos-x64-app-build:
+  extends: .base-macos
+  script:
+    - npm run mac:x64:app
+
+android-build:
+  extends: .base-build
+
+ios-build:
+  extends: .base-build
+  tags:
+    - myclarity
+    - macos
+
+firebase-deploy:
+  stage: deploy
+  needs:
+    - e2e-test
+    - secret_detection
+  tags:
+    - myclarity
+  variables:
+    SLUG: "dev"
+  script:
+    - firebase deploy --only hosting --project=$CI_COMMIT_BRANCH
+  environment:
+    name: $CI_COMMIT_BRANCH
+    url: https://$SLUG.myclarity.io
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: on_success
+      variables:
+        SLUG: ""
+    - if: $CI_COMMIT_BRANCH == "staging"
+      when: on_success
+      variables:
+        SLUG: "staging"
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: always
+      variables:
+        SLUG: "dev"
+    - when: never

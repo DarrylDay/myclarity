@@ -1,0 +1,3 @@
+ion-menu ion-header {
+    margin-top: env(safe-area-inset-top) !important;
+}

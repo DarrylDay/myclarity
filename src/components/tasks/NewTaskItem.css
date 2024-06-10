@@ -1,0 +1,14 @@
+.new-task-item {
+    margin: 6px;
+    --min-height: 50px;
+    --border-radius: 8px;
+    --background: var(--ion-color-light);
+}
+
+.new-task-item-selected {
+    --min-height: 50px;
+}
+
+.new-task-input {
+    width: 100%;
+}

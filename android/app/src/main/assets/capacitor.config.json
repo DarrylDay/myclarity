@@ -1,0 +1,28 @@
+{
+	"appId": "io.myclarity.app",
+	"appName": "myClarity",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "build",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0
+		},
+		"CapacitorFirebaseAuth": {
+			"providers": [
+				"google.com"
+			],
+			"languageCode": "en",
+			"nativeAuth": false,
+			"permissions": {
+				"google": [
+					"profile"
+				]
+			}
+		}
+	},
+	"ios": {
+		"minVersion": "12.0"
+	},
+	"cordova": {}
+}
